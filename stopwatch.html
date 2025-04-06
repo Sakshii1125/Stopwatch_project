@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background: linear-gradient(to right, #1f4037, #99f2c8);
+            color: white;
+        }
+        .clock-container {
+            display: none;
+            margin-bottom: 20px;
+        }
+        .clock-image {
+            width: 150px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .time {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #fcfbf6;
+            text-shadow: 0 0 10px rgba(32, 32, 31, 0.8);
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            color: white;
+        }
+        .start { background-color: #28a745; box-shadow: 0 0 5px #28a745; }
+        .stop { background-color: #dc3545; box-shadow: 0 0 5px #dc3545; }
+        .reset { background-color: #ffc107; box-shadow: 0 0 5px #ffc107; }
+        button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Stopwatch</h2>
+        <div class="time" id="display">00:00:00</div>
+        <div class="clock-container" id="clockContainer">
+            <img src="https://cdn.pixabay.com/animation/2023/02/19/06/46/06-46-06-605_512.gif" class="clock-image" alt="Clock">
+        </div>
+        <button class="start" onclick="startTimer()">Start</button>
+        <button class="stop" onclick="stopTimer()">Stop</button>
+        <button class="reset" onclick="resetTimer()">Reset</button>
+    </div>
+
+    <script>
+        let timer;
+        let seconds = 0, minutes = 0, hours = 0;
+        let running = false;
+
+        function updateDisplay() {
+            let formattedTime = 
+                (hours < 10 ? "0" + hours : hours) + ":" +
+                (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                (seconds < 10 ? "0" + seconds : seconds);
+            document.getElementById("display").innerText = formattedTime;
+        }
+
+        function startTimer() {
+            if (!running) {
+                running = true;
+                document.getElementById("clockContainer").style.display = "block";
+                timer = setInterval(() => {
+                    seconds++;
+                    if (seconds == 60) { seconds = 0; minutes++; }
+                    if (minutes == 60) { minutes = 0; hours++; }
+                    updateDisplay();
+                }, 1000);
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            running = false;
+            document.getElementById("clockContainer").style.display = "none";
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            running = false;
+            seconds = 0;
+            minutes = 0;
+            hours = 0;
+            updateDisplay();
+            document.getElementById("clockContainer").style.display = "none";
+        }
+    </script>
+</body>
+</html>
